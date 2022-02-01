@@ -37,7 +37,8 @@ reserved = {
     'if' : 'IF',
     'else' : 'ELSE',
     'while' : 'WHILE',
-    'for' : 'FOR'
+    'for' : 'FOR',
+    'function' : 'FUNCTION'
 }
 
 precedence = (
@@ -49,6 +50,7 @@ precedence = (
 tokens += reserved.values()
 
 names = {}
+functions = {}
 
 def t_NUMBER(t):
     r'\d+'
@@ -158,6 +160,10 @@ def p_for(p):
     '''expression : FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN LACCOL bloc RACCOL'''
     p[0] = ('for', p[3], p[5], p[7], p[10])
 
+def p_function(p):
+    '''expression : FUNCTION NAME LPAREN RPAREN LACCOL bloc RACCOL'''
+    p[0] = ('function', p[2], p[6])
+
 def p_expression_number(p):
     'expression : NUMBER'
     p[0] = p[1]
@@ -165,6 +171,10 @@ def p_expression_number(p):
 def p_name(p):
     'expression : NAME'
     p[0] = p[1]
+
+def p_function_call(p):
+    'expression : NAME LPAREN RPAREN'
+    p[0] = ('call', p[1])
 
 def p_error(p):
     print("Syntax error at '%s'" % p.value)
@@ -206,6 +216,12 @@ def evalInst(t):
         print("Result : " + str(evalExpr(t[1])))
     elif t[0] == "assign":
         names[t[1]] = evalExpr(t[2])
+    elif t[0] == "function":
+        functions[t[1]]= t[2]
+        print(functions)
+    elif t[0] == "call":
+        if t[1] in functions:
+            evalInst(functions[t[1]])
     elif t[0] == "if":
         if evalExpr(t[1]):
             evalInst(t[2])
@@ -219,9 +235,10 @@ def evalInst(t):
         while evalExpr(t[2]):
             evalInst(t[4])
             evalInst(t[3])
+    
 
 import ply.yacc as yacc
 yacc.yacc()
 
-s = 'if(1<2){print(1);print(3);};'
+s = 'function carre(){print(2);}; for(i=0;i<10;i=i+1){carre();};'
 yacc.parse(s)
