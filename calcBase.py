@@ -12,7 +12,8 @@ tokens = [
     'SEMICOLON',
     'NAME', 'EQUAL',
     'COMPARE',
-    'LACCOL', 'RACCOL'
+    'LACCOL', 'RACCOL',
+    'SEPARATOR'
     ]
 
 # Tokens
@@ -29,13 +30,15 @@ t_OR  = r'\|'
 t_SEMICOLON = r';'
 t_EQUAL = r'='
 t_COMPARE = r'[<>]'
+t_SEPARATOR = r':'
 
 reserved = {
     'print' : 'PRINT',
     'true' : 'TRUE',
     'false' : 'FALSE',
     'if' : 'IF',
-    'while' : 'WHILE'
+    'while' : 'WHILE',
+    'for' : 'FOR'
 }
 
 precedence = (
@@ -149,8 +152,8 @@ def p_loop(p):
     p[0] = ('while', p[2], p[4])
 
 def p_for(p):
-    '''expression : WHILE expression LACCOL bloc RACCOL'''
-    p[0] = ('while', p[2], p[4])
+    '''expression : FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN LACCOL bloc RACCOL'''
+    p[0] = ('for', p[3], p[5], p[7], p[10])
 
 def p_expression_number(p):
     'expression : NUMBER'
@@ -164,7 +167,6 @@ def p_error(p):
     print("Syntax error at '%s'" % p.value)
 
 def evalExpr(t):
-
     if type(t) == int:
         return t
     elif type(t) == str:
@@ -207,9 +209,14 @@ def evalInst(t):
     elif t[0] == "while":
         while evalExpr(t[1]):
             evalInst(t[2])
+    elif t[0] == "for":
+        evalInst(t[1])
+        while evalExpr(t[2]):
+            evalInst(t[4])
+            evalInst(t[3])
 
 import ply.yacc as yacc
 yacc.yacc()
 
-s = 'x=4; if x<8 { print(true & false); };'
+s = 'for(i=0;i<10;i=i+1){print(i);};'
 yacc.parse(s)
