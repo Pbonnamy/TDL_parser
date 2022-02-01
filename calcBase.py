@@ -148,6 +148,10 @@ def p_loop(p):
     '''expression : WHILE expression LACCOL bloc RACCOL'''
     p[0] = ('while', p[2], p[4])
 
+def p_for(p):
+    '''expression : WHILE expression LACCOL bloc RACCOL'''
+    p[0] = ('while', p[2], p[4])
+
 def p_expression_number(p):
     'expression : NUMBER'
     p[0] = p[1]
