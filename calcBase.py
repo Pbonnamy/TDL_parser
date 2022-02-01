@@ -3,7 +3,6 @@
 #
 # Expressions arithmétiques sans variables
 # -----------------------------------------------------------------------------
-#test
 from genereTreeGraphviz2 import printTreeGraph
 
 tokens = [
