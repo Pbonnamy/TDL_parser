@@ -1,0 +1,16 @@
+#ENV
+.env
+
+#IDE
+.idea/
+.vscode/
+
+#OS
+*.DS_Store
+
+#CACHE
+__pycache__/
+
+Digraph.gv
+Digraph.gv.pdf
+parser.out
