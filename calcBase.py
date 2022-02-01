@@ -3,7 +3,7 @@
 #
 # Expressions arithmétiques sans variables
 # -----------------------------------------------------------------------------
-from genereTreeGraphviz2 import printTreeGraph
+#from genereTreeGraphviz2 import printTreeGraph
 
 tokens = [
     'NUMBER','MINUS',
@@ -12,8 +12,7 @@ tokens = [
     'SEMICOLON',
     'NAME', 'EQUAL',
     'COMPARE',
-    'LACCOL', 'RACCOL',
-    'SEPARATOR'
+    'LACCOL', 'RACCOL'
     ]
 
 # Tokens
@@ -30,13 +29,13 @@ t_OR  = r'\|'
 t_SEMICOLON = r';'
 t_EQUAL = r'='
 t_COMPARE = r'[<>]'
-t_SEPARATOR = r':'
 
 reserved = {
     'print' : 'PRINT',
     'true' : 'TRUE',
     'false' : 'FALSE',
     'if' : 'IF',
+    'else' : 'ELSE',
     'while' : 'WHILE',
     'for' : 'FOR'
 }
@@ -81,7 +80,7 @@ def p_start(p):
     'start : bloc'
     p[0] = ('START',p[1])
     print('Arbre de dérivation = ',p[0])
-    printTreeGraph(p[1])
+    #printTreeGraph(p[1])
     evalInst(p[1])
 
 def p_bloc(p):
@@ -144,8 +143,12 @@ def p_expression_group(p):
     p[0] = p[2]
 
 def p_condition(p):
-    '''expression : IF expression LACCOL bloc RACCOL'''
-    p[0] = ('if', p[2], p[4])
+    '''expression : IF expression LACCOL bloc RACCOL
+                                | IF expression LACCOL bloc RACCOL ELSE LACCOL bloc RACCOL'''
+    if len(p) > 6:
+        p[0] = ('if', p[2], p[4], p[8])
+    else :
+        p[0] = ('if', p[2], p[4])
 
 def p_loop(p):
     '''expression : WHILE expression LACCOL bloc RACCOL'''
@@ -206,6 +209,8 @@ def evalInst(t):
     elif t[0] == "if":
         if evalExpr(t[1]):
             evalInst(t[2])
+        elif len(t) > 3:
+            evalInst(t[3])
     elif t[0] == "while":
         while evalExpr(t[1]):
             evalInst(t[2])
@@ -218,5 +223,5 @@ def evalInst(t):
 import ply.yacc as yacc
 yacc.yacc()
 
-s = 'for(i=0;i<10;i=i+1){print(i);};'
+s = 'if(1<2){print(1);print(3);};'
 yacc.parse(s)
