@@ -3,7 +3,9 @@
 #
 # Expressions arithmétiques sans variables
 # -----------------------------------------------------------------------------
-from genereTreeGraphviz2 import printTreeGraph
+#from genereTreeGraphviz2 import printTreeGraph
+
+#PREPARER DES INPUTS POUR LA SOUTENANCE
 
 tokens = [
     'NUMBER', 'MINUS',
@@ -92,7 +94,7 @@ def p_start(p):
     'start : bloc'
     p[0] = ('START', p[1])
     print('Arbre de dérivation = ', p[0])
-    printTreeGraph(p[1])
+    #printTreeGraph(p[1])
     evalInst(p[1])
 
 
@@ -103,11 +105,6 @@ def p_bloc(p):
         p[0] = ('bloc', p[1], 'empty')
     else:
         p[0] = ('bloc', p[1], p[2])
-
-
-def p_statement_expr(p):
-    'statement : expression'
-    p[0] = p[1]
 
 
 def p_print(p):
@@ -196,7 +193,7 @@ def p_params(p):
 
 
 def p_function(p):
-    '''expression : FUNCTION NAME LPAREN RPAREN LACCOL bloc RACCOL
+    '''statement : FUNCTION NAME LPAREN RPAREN LACCOL bloc RACCOL
                                 | FUNCTION NAME LPAREN params RPAREN LACCOL bloc RACCOL'''
     if len(p) == 8:
         p[0] = ('function', p[2], p[6])
@@ -215,7 +212,7 @@ def p_name(p):
 
 
 def p_function_call(p):
-    '''expression : NAME LPAREN RPAREN
+    '''statement : NAME LPAREN RPAREN
                        | NAME LPAREN params RPAREN'''
     if len(p) == 4:
         p[0] = ('call', p[1])
@@ -266,7 +263,12 @@ def evalInst(t):
     elif t[0] == "assign":
         names[t[1]] = evalExpr(t[2])
     elif t[0] == "function":
-        functions[t[1]] = t[2]
+        if len(t) == 4:
+            params[t[1]] = t[2]
+            functions[t[1]] = t[3]
+        else:
+            functions[t[1]] = t[2]
+
     elif t[0] == "call":
         if t[1] in functions:
             evalInst(functions[t[1]])
@@ -289,5 +291,5 @@ import ply.yacc as yacc
 
 yacc.yacc()
 
-s = 'function carre(){print(1);}; for(i=0;i<10;i=i+1){carre();};'
+s = 'x = 2; function carre(x,y){print(x);}; carre(1,2);'
 yacc.parse(s)
