@@ -3,7 +3,7 @@
 #
 # Expressions arithmétiques sans variables
 # -----------------------------------------------------------------------------
-#from genereTreeGraphviz2 import printTreeGraph
+from genereTreeGraphviz2 import printTreeGraph
 
 #PREPARER DES INPUTS POUR LA SOUTENANCE
 
@@ -94,7 +94,7 @@ def p_start(p):
     'start : bloc'
     p[0] = ('START', p[1])
     print('Arbre de dérivation = ', p[0])
-    #printTreeGraph(p[1])
+    printTreeGraph(p[1])
     evalInst(p[1])
 
 
@@ -187,7 +187,7 @@ def p_params(p):
                         | expression'''
 
     if len(p) == 2:
-        p[0] = ('param', p[1], 'empty')
+        p[0] = ('param', 'empty', p[1])
     else:
         p[0] = ('param', p[1], p[3])
 
@@ -254,6 +254,7 @@ def evalExpr(t):
 
 
 def evalInst(t):
+    print(t)
     if t[0] == "bloc":
         # systeme de pile (mettre sur la pile)
         evalInst(t[1])
@@ -268,9 +269,18 @@ def evalInst(t):
             functions[t[1]] = t[3]
         else:
             functions[t[1]] = t[2]
-
     elif t[0] == "call":
         if t[1] in functions:
+            if len(t) > 2:
+                unstackVal = t[2]
+                unstackVar = params[t[1]]
+                while (True):
+                    names[unstackVar[2]] = evalExpr(unstackVal[2])
+                    if (unstackVal[1] == "empty"):
+                        break
+                    else:
+                        unstackVal = unstackVal[1]
+                        unstackVar = unstackVar[1]
             evalInst(functions[t[1]])
     elif t[0] == "if":
         if evalExpr(t[1]):
@@ -291,5 +301,5 @@ import ply.yacc as yacc
 
 yacc.yacc()
 
-s = 'x = 2; function carre(x,y){print(x);}; carre(1,2);'
+s = 'function carre(x, y, z){print(x);}; carre(1+6, 3, 7);'
 yacc.parse(s)
