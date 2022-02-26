@@ -101,7 +101,7 @@ def p_start(p):
 def p_bloc(p):
     '''bloc : bloc statement SEMICOLON
                             | statement SEMICOLON'''
-    if (p[2] == ";"):
+    if p[2] == ";":
         p[0] = ('bloc', p[1], 'empty')
     else:
         p[0] = ('bloc', p[1], p[2])
@@ -254,7 +254,6 @@ def evalExpr(t):
 
 
 def evalInst(t):
-    print(t)
     if t[0] == "bloc":
         # systeme de pile (mettre sur la pile)
         evalInst(t[1])
@@ -272,15 +271,15 @@ def evalInst(t):
     elif t[0] == "call":
         if t[1] in functions:
             if len(t) > 2:
-                unstackVal = t[2]
-                unstackVar = params[t[1]]
-                while (True):
-                    names[unstackVar[2]] = evalExpr(unstackVal[2])
-                    if (unstackVal[1] == "empty"):
+                unstack_val = t[2]
+                unstack_var = params[t[1]]
+                while True:
+                    names[unstack_var[2]] = evalExpr(unstack_val[2])
+                    if unstack_val[1] == "empty":
                         break
                     else:
-                        unstackVal = unstackVal[1]
-                        unstackVar = unstackVar[1]
+                        unstack_val = unstack_val[1]
+                        unstack_var = unstack_var[1]
             evalInst(functions[t[1]])
     elif t[0] == "if":
         if evalExpr(t[1]):
