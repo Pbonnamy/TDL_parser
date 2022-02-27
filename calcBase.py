@@ -15,7 +15,8 @@ tokens = [
     'NAME', 'EQUAL',
     'COMPARE',
     'LACCOL', 'RACCOL',
-    'SEPARATOR', 'QUOTE'
+    'SEPARATOR', 'QUOTE',
+    'LBRACKET', 'RBRACKET'
 ]
 
 # Tokens
@@ -27,6 +28,8 @@ t_LPAREN = r'\('
 t_RPAREN = r'\)'
 t_LACCOL = r'\{'
 t_RACCOL = r'\}'
+t_LBRACKET = r'\['
+t_RBRACKET = r'\]'
 t_AND = r'&'
 t_OR = r'\|'
 t_SEMICOLON = r';'
@@ -95,7 +98,7 @@ lex.lex()
 def p_start(p):
     """start : bloc"""
     p[0] = ('START', p[1])
-    #printTreeGraph(p[1])
+    printTreeGraph(p[1])
     print(p[0])
     evalInst(p[1])
 
@@ -137,6 +140,24 @@ def p_name_assign(p):
         p[0] = ('assign', p[1], p[3])
     else:
         p[0] = ('assign', p[1], p[2], p[3])
+
+##########################################
+
+def p_array_assign(p):
+    """statement : NAME EQUAL LBRACKET values RBRACKET"""
+    if p[2] == "=":
+        p[0] = ('assign', p[1], p[4])
+
+def p_array_values(p):
+    """values : expression SEPARATOR values
+                        | expression"""
+
+    if len(p) == 2:
+        p[0] = ('value', p[1], 'empty')
+    else:
+        p[0] = ('value', p[1], p[3])
+
+##########################################
 
 
 def p_expression_binop_bool2(p):
@@ -339,7 +360,9 @@ import ply.yacc as yacc
 
 yacc.yacc()
 
-with open("test/file5.txt") as file:
-    s = file.read()
+#with open("test/file5.txt") as file:
+#    s = file.read()
+
+s = "y=7+8;x=[5,8,10+20,y];"
 
 yacc.parse(s)
