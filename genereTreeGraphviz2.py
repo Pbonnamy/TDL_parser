@@ -26,8 +26,4 @@ def addNode(graph, t):
 
 
     return myId
-
-tree=('*', ('+', 1, 2),3)
-
-printTreeGraph(tree)
  

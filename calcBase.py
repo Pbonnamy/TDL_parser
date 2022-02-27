@@ -95,8 +95,8 @@ lex.lex()
 def p_start(p):
     """start : bloc"""
     p[0] = ('START', p[1])
-    print('Arbre de dérivation = ', p[0])
-    printTreeGraph(p[1])
+    #printTreeGraph(p[1])
+    print(p[0])
     evalInst(p[1])
 
 
@@ -115,13 +115,10 @@ def p_print(p):
 
 
 def p_expression_binop_plus(p):
-    """expression : expression PLUS expression
-                            | expression PLUS"""
+    """expression : expression PLUS expression"""
 
-    if len(p) == 4:
-        p[0] = ('+', p[1], p[3])
-    else:
-        p[0] = ('+', p[1], p[2])
+
+    p[0] = ('+', p[1], p[3])
 
 
 def p_expressionTrue(p):
@@ -135,8 +132,12 @@ def p_expressionFalse(p):
 
 
 def p_name_assign(p):
-    """statement : NAME EQUAL expression"""
-    p[0] = ('assign', p[1], p[3])
+    """statement : NAME EQUAL expression
+                | NAME PLUS PLUS"""
+    if p[2] == "=":
+        p[0] = ('assign', p[1], p[3])
+    else:
+        p[0] = ('assign', p[1], p[2], p[3])
 
 
 def p_expression_binop_bool2(p):
@@ -171,7 +172,7 @@ def p_expression_group(p):
 
 
 def p_condition(p):
-    """expression : IF expression LACCOL bloc RACCOL
+    """statement : IF expression LACCOL bloc RACCOL
                                 | IF expression LACCOL bloc RACCOL ELSE LACCOL bloc RACCOL"""
     if len(p) > 6:
         p[0] = ('if', p[2], p[4], p[8])
@@ -256,10 +257,7 @@ def evalExpr(t):
             return names[t]
     else:
         if t[0] == "+":
-            if t[2] == "+":
-                return evalExpr(t[1]) + 1
-            else:
-                return evalExpr(t[1]) + evalExpr(t[2])
+            return evalExpr(t[1]) + evalExpr(t[2])
         elif t[0] == "-":
             return evalExpr(t[1]) - evalExpr(t[2])
         elif t[0] == "*":
@@ -294,13 +292,16 @@ def evalInst(t):
     elif t[0] == "print":
         unstack_val = t[1]
         while True:
-            print(str(evalExpr(unstack_val[1])))
+            print('calc >', str(evalExpr(unstack_val[1])))
             if unstack_val[2] == "empty":
                 break
             else:
                 unstack_val = unstack_val[2]
     elif t[0] == "assign":
-        names[t[1]] = evalExpr(t[2])
+        if len(t) == 4:
+            names[t[1]] += 1
+        else:
+            names[t[1]] = evalExpr(t[2])
     elif t[0] == "function":
         if len(t) == 4:
             params[t[1]] = t[2]
@@ -339,5 +340,5 @@ import ply.yacc as yacc
 
 yacc.yacc()
 
-s = 'for(i=0;i<10;i=(i+1)++){print(i++);};'
+s = 'print(((1+4)*4-10)/2);'
 yacc.parse(s)
