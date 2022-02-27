@@ -108,7 +108,7 @@ def p_bloc(p):
 
 
 def p_print(p):
-    'statement : PRINT LPAREN expression RPAREN'
+    'statement : PRINT LPAREN params RPAREN'
     p[0] = ('print', p[3])
 
 
@@ -183,11 +183,11 @@ def p_for(p):
 
 
 def p_params(p):
-    '''params : params SEPARATOR expression
+    '''params : expression SEPARATOR params
                         | expression'''
 
     if len(p) == 2:
-        p[0] = ('param', 'empty', p[1])
+        p[0] = ('param', p[1], 'empty')
     else:
         p[0] = ('param', p[1], p[3])
 
@@ -259,7 +259,13 @@ def evalInst(t):
         evalInst(t[1])
         evalInst(t[2])
     elif t[0] == "print":
-        print("Result : " + str(evalExpr(t[1])))
+        unstack_val = t[1]
+        while True:
+            print(str(evalExpr(unstack_val[1])))
+            if unstack_val[2] == "empty":
+                break
+            else:
+                unstack_val = unstack_val[2]
     elif t[0] == "assign":
         names[t[1]] = evalExpr(t[2])
     elif t[0] == "function":
@@ -274,12 +280,12 @@ def evalInst(t):
                 unstack_val = t[2]
                 unstack_var = params[t[1]]
                 while True:
-                    names[unstack_var[2]] = evalExpr(unstack_val[2])
-                    if unstack_val[1] == "empty":
+                    names[unstack_var[1]] = evalExpr(unstack_val[1])
+                    if unstack_val[2] == "empty":
                         break
                     else:
-                        unstack_val = unstack_val[1]
-                        unstack_var = unstack_var[1]
+                        unstack_val = unstack_val[2]
+                        unstack_var = unstack_var[2]
             evalInst(functions[t[1]])
     elif t[0] == "if":
         if evalExpr(t[1]):
@@ -300,5 +306,5 @@ import ply.yacc as yacc
 
 yacc.yacc()
 
-s = 'function carre(x, y, z){print(x);}; carre(1+6, 3, 7);'
+s = 'print(1);'
 yacc.parse(s)

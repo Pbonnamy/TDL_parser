@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'leftPLUSMINUSnonassocANDOREQUALCOMPAREleftTIMESDIVIDEAND COMPARE DIVIDE ELSE EQUAL FALSE FOR FUNCTION IF LACCOL LPAREN MINUS NAME NUMBER OR PLUS PRINT RACCOL RPAREN SEMICOLON SEPARATOR TIMES TRUE WHILEstart : blocbloc : bloc statement SEMICOLON\n                            | statement SEMICOLONstatement : PRINT LPAREN expression RPARENexpression : expression PLUS expressionexpression : TRUEexpression : FALSEstatement : NAME EQUAL expressionexpression : expression COMPARE expressionexpression : expression AND expression\n                                | expression OR expressionexpression : expression TIMES expressionexpression : expression MINUS expression\n\t\t\t\t| expression DIVIDE expressionexpression : LPAREN expression RPARENexpression : IF expression LACCOL bloc RACCOL\n                                | IF expression LACCOL bloc RACCOL ELSE LACCOL bloc RACCOLexpression : WHILE expression LACCOL bloc RACCOLexpression : FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN LACCOL bloc RACCOLparams : params SEPARATOR expression\n                        | expressionstatement : FUNCTION NAME LPAREN RPAREN LACCOL bloc RACCOL\n                                | FUNCTION NAME LPAREN params RPAREN LACCOL bloc RACCOLexpression : NUMBERexpression : NAMEstatement : NAME LPAREN RPAREN\n                       | NAME LPAREN params RPAREN'
+_lr_signature = 'leftPLUSMINUSnonassocANDOREQUALCOMPAREleftTIMESDIVIDEAND COMPARE DIVIDE ELSE EQUAL FALSE FOR FUNCTION IF LACCOL LPAREN MINUS NAME NUMBER OR PLUS PRINT RACCOL RPAREN SEMICOLON SEPARATOR TIMES TRUE WHILEstart : blocbloc : bloc statement SEMICOLON\n                            | statement SEMICOLONstatement : PRINT LPAREN params RPARENexpression : expression PLUS expressionexpression : TRUEexpression : FALSEstatement : NAME EQUAL expressionexpression : expression COMPARE expressionexpression : expression AND expression\n                                | expression OR expressionexpression : expression TIMES expressionexpression : expression MINUS expression\n\t\t\t\t| expression DIVIDE expressionexpression : LPAREN expression RPARENexpression : IF expression LACCOL bloc RACCOL\n                                | IF expression LACCOL bloc RACCOL ELSE LACCOL bloc RACCOLexpression : WHILE expression LACCOL bloc RACCOLexpression : FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN LACCOL bloc RACCOLparams : expression SEPARATOR params\n                        | expressionstatement : FUNCTION NAME LPAREN RPAREN LACCOL bloc RACCOL\n                                | FUNCTION NAME LPAREN params RPAREN LACCOL bloc RACCOLexpression : NUMBERexpression : NAMEstatement : NAME LPAREN RPAREN\n                       | NAME LPAREN params RPAREN'
     
-_lr_action_items = {'PRINT':([0,2,8,13,39,52,53,56,58,59,61,62,67,69,71,73,76,77,],[4,4,-3,-2,4,4,4,4,4,4,4,4,4,4,4,4,4,4,]),'NAME':([0,2,6,8,9,10,11,13,14,18,19,27,30,31,32,33,34,35,36,39,41,52,53,56,58,59,60,61,62,67,69,71,73,76,77,],[5,5,12,-3,22,22,22,-2,22,22,22,22,22,22,22,22,22,22,22,5,22,5,5,5,5,5,22,5,5,5,5,5,5,5,5,]),'FUNCTION':([0,2,8,13,39,52,53,56,58,59,61,62,67,69,71,73,76,77,],[6,6,-3,-2,6,6,6,6,6,6,6,6,6,6,6,6,6,6,]),'$end':([1,2,8,13,],[0,-1,-3,-2,]),'SEMICOLON':([3,7,16,17,21,22,23,24,29,40,44,45,46,47,48,49,50,51,54,63,64,65,66,70,75,78,],[8,13,-6,-7,-24,-25,-8,-26,-4,-27,-15,-5,-9,-10,-11,-12,-13,-14,60,-16,-18,69,-22,-23,-17,-19,]),'LPAREN':([4,5,9,10,11,12,14,18,19,20,27,30,31,32,33,34,35,36,41,60,],[9,11,14,14,14,27,14,14,14,39,14,14,14,14,14,14,14,14,14,14,]),'EQUAL':([5,],[10,]),'RACCOL':([8,13,58,59,61,67,73,77,],[-3,-2,63,64,66,70,75,78,]),'TRUE':([9,10,11,14,18,19,27,30,31,32,33,34,35,36,41,60,],[16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,]),'FALSE':([9,10,11,14,18,19,27,30,31,32,33,34,35,36,41,60,],[17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,]),'IF':([9,10,11,14,18,19,27,30,31,32,33,34,35,36,41,60,],[18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,]),'WHILE':([9,10,11,14,18,19,27,30,31,32,33,34,35,36,41,60,],[19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,]),'FOR':([9,10,11,14,18,19,27,30,31,32,33,34,35,36,41,60,],[20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,]),'NUMBER':([9,10,11,14,18,19,27,30,31,32,33,34,35,36,41,60,],[21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,]),'RPAREN':([11,15,16,17,21,22,23,24,25,26,27,28,29,40,43,44,45,46,47,48,49,50,51,55,63,64,66,70,72,75,78,],[24,29,-6,-7,-24,-25,-8,-26,40,-21,42,44,-4,-27,57,-15,-5,-9,-10,-11,-12,-13,-14,-20,-16,-18,-22,-23,74,-17,-19,]),'PLUS':([15,16,17,21,22,23,26,28,37,38,44,45,46,47,48,49,50,51,55,63,64,65,75,78,],[30,-6,-7,-24,-25,30,30,30,30,30,-15,-5,-9,-10,-11,-12,-13,-14,30,-16,-18,30,-17,-19,]),'COMPARE':([15,16,17,21,22,23,26,28,37,38,44,45,46,47,48,49,50,51,55,63,64,65,75,78,],[31,-6,-7,-24,-25,31,31,31,31,31,-15,31,None,None,None,-12,31,-14,31,-16,-18,31,-17,-19,]),'AND':([15,16,17,21,22,23,26,28,37,38,44,45,46,47,48,49,50,51,55,63,64,65,75,78,],[32,-6,-7,-24,-25,32,32,32,32,32,-15,32,None,None,None,-12,32,-14,32,-16,-18,32,-17,-19,]),'OR':([15,16,17,21,22,23,26,28,37,38,44,45,46,47,48,49,50,51,55,63,64,65,75,78,],[33,-6,-7,-24,-25,33,33,33,33,33,-15,33,None,None,None,-12,33,-14,33,-16,-18,33,-17,-19,]),'TIMES':([15,16,17,21,22,23,26,28,37,38,44,45,46,47,48,49,50,51,55,63,64,65,75,78,],[34,-6,-7,-24,-25,34,34,34,34,34,-15,34,34,34,34,-12,34,-14,34,-16,-18,34,-17,-19,]),'MINUS':([15,16,17,21,22,23,26,28,37,38,44,45,46,47,48,49,50,51,55,63,64,65,75,78,],[35,-6,-7,-24,-25,35,35,35,35,35,-15,-5,-9,-10,-11,-12,-13,-14,35,-16,-18,35,-17,-19,]),'DIVIDE':([15,16,17,21,22,23,26,28,37,38,44,45,46,47,48,49,50,51,55,63,64,65,75,78,],[36,-6,-7,-24,-25,36,36,36,36,36,-15,36,36,36,36,-12,36,-14,36,-16,-18,36,-17,-19,]),'SEPARATOR':([16,17,21,22,25,26,43,44,45,46,47,48,49,50,51,55,63,64,75,78,],[-6,-7,-24,-25,41,-21,41,-15,-5,-9,-10,-11,-12,-13,-14,-20,-16,-18,-17,-19,]),'LACCOL':([16,17,21,22,37,38,42,44,45,46,47,48,49,50,51,57,63,64,68,74,75,78,],[-6,-7,-24,-25,52,53,56,-15,-5,-9,-10,-11,-12,-13,-14,62,-16,-18,71,76,-17,-19,]),'ELSE':([63,],[68,]),}
+_lr_action_items = {'PRINT':([0,2,8,13,40,53,54,56,58,59,61,62,67,69,71,73,76,77,],[4,4,-3,-2,4,4,4,4,4,4,4,4,4,4,4,4,4,4,]),'NAME':([0,2,6,8,9,10,11,13,14,19,20,27,30,31,32,33,34,35,36,37,40,53,54,56,58,59,60,61,62,67,69,71,73,76,77,],[5,5,12,-3,23,23,23,-2,23,23,23,23,23,23,23,23,23,23,23,23,5,5,5,5,5,5,23,5,5,5,5,5,5,5,5,]),'FUNCTION':([0,2,8,13,40,53,54,56,58,59,61,62,67,69,71,73,76,77,],[6,6,-3,-2,6,6,6,6,6,6,6,6,6,6,6,6,6,6,]),'$end':([1,2,8,13,],[0,-1,-3,-2,]),'SEMICOLON':([3,7,17,18,22,23,24,25,29,41,44,46,47,48,49,50,51,52,55,63,64,65,66,70,75,78,],[8,13,-6,-7,-24,-25,-8,-26,-4,-27,-15,-5,-9,-10,-11,-12,-13,-14,60,-16,-18,69,-22,-23,-17,-19,]),'LPAREN':([4,5,9,10,11,12,14,19,20,21,27,30,31,32,33,34,35,36,37,60,],[9,11,14,14,14,27,14,14,14,40,14,14,14,14,14,14,14,14,14,14,]),'EQUAL':([5,],[10,]),'RACCOL':([8,13,58,59,61,67,73,77,],[-3,-2,63,64,66,70,75,78,]),'TRUE':([9,10,11,14,19,20,27,30,31,32,33,34,35,36,37,60,],[17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,]),'FALSE':([9,10,11,14,19,20,27,30,31,32,33,34,35,36,37,60,],[18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,]),'IF':([9,10,11,14,19,20,27,30,31,32,33,34,35,36,37,60,],[19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,]),'WHILE':([9,10,11,14,19,20,27,30,31,32,33,34,35,36,37,60,],[20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,]),'FOR':([9,10,11,14,19,20,27,30,31,32,33,34,35,36,37,60,],[21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,]),'NUMBER':([9,10,11,14,19,20,27,30,31,32,33,34,35,36,37,60,],[22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,]),'RPAREN':([11,15,16,17,18,22,23,24,25,26,27,28,29,41,43,44,45,46,47,48,49,50,51,52,63,64,66,70,72,75,78,],[25,29,-21,-6,-7,-24,-25,-8,-26,41,42,44,-4,-27,57,-15,-20,-5,-9,-10,-11,-12,-13,-14,-16,-18,-22,-23,74,-17,-19,]),'SEPARATOR':([16,17,18,22,23,44,46,47,48,49,50,51,52,63,64,75,78,],[30,-6,-7,-24,-25,-15,-5,-9,-10,-11,-12,-13,-14,-16,-18,-17,-19,]),'PLUS':([16,17,18,22,23,24,28,38,39,44,46,47,48,49,50,51,52,63,64,65,75,78,],[31,-6,-7,-24,-25,31,31,31,31,-15,-5,-9,-10,-11,-12,-13,-14,-16,-18,31,-17,-19,]),'COMPARE':([16,17,18,22,23,24,28,38,39,44,46,47,48,49,50,51,52,63,64,65,75,78,],[32,-6,-7,-24,-25,32,32,32,32,-15,32,None,None,None,-12,32,-14,-16,-18,32,-17,-19,]),'AND':([16,17,18,22,23,24,28,38,39,44,46,47,48,49,50,51,52,63,64,65,75,78,],[33,-6,-7,-24,-25,33,33,33,33,-15,33,None,None,None,-12,33,-14,-16,-18,33,-17,-19,]),'OR':([16,17,18,22,23,24,28,38,39,44,46,47,48,49,50,51,52,63,64,65,75,78,],[34,-6,-7,-24,-25,34,34,34,34,-15,34,None,None,None,-12,34,-14,-16,-18,34,-17,-19,]),'TIMES':([16,17,18,22,23,24,28,38,39,44,46,47,48,49,50,51,52,63,64,65,75,78,],[35,-6,-7,-24,-25,35,35,35,35,-15,35,35,35,35,-12,35,-14,-16,-18,35,-17,-19,]),'MINUS':([16,17,18,22,23,24,28,38,39,44,46,47,48,49,50,51,52,63,64,65,75,78,],[36,-6,-7,-24,-25,36,36,36,36,-15,-5,-9,-10,-11,-12,-13,-14,-16,-18,36,-17,-19,]),'DIVIDE':([16,17,18,22,23,24,28,38,39,44,46,47,48,49,50,51,52,63,64,65,75,78,],[37,-6,-7,-24,-25,37,37,37,37,-15,37,37,37,37,-12,37,-14,-16,-18,37,-17,-19,]),'LACCOL':([17,18,22,23,38,39,42,44,46,47,48,49,50,51,52,57,63,64,68,74,75,78,],[-6,-7,-24,-25,53,54,56,-15,-5,-9,-10,-11,-12,-13,-14,62,-16,-18,71,76,-17,-19,]),'ELSE':([63,],[68,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'start':([0,],[1,]),'bloc':([0,52,53,56,62,71,76,],[2,58,59,61,67,73,77,]),'statement':([0,2,39,52,53,56,58,59,61,62,67,69,71,73,76,77,],[3,7,54,3,3,3,7,7,7,3,7,72,3,7,3,7,]),'expression':([9,10,11,14,18,19,27,30,31,32,33,34,35,36,41,60,],[15,23,26,28,37,38,26,45,46,47,48,49,50,51,55,65,]),'params':([11,27,],[25,43,]),}
+_lr_goto_items = {'start':([0,],[1,]),'bloc':([0,53,54,56,62,71,76,],[2,58,59,61,67,73,77,]),'statement':([0,2,40,53,54,56,58,59,61,62,67,69,71,73,76,77,],[3,7,55,3,3,3,7,7,7,3,7,72,3,7,3,7,]),'params':([9,11,27,30,],[15,26,43,45,]),'expression':([9,10,11,14,19,20,27,30,31,32,33,34,35,36,37,60,],[16,24,16,28,38,39,16,16,46,47,48,49,50,51,52,65,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -27,31 +27,31 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> start","S'",1,None,None,None),
-  ('start -> bloc','start',1,'p_start','calcBase.py',92),
-  ('bloc -> bloc statement SEMICOLON','bloc',3,'p_bloc','calcBase.py',100),
-  ('bloc -> statement SEMICOLON','bloc',2,'p_bloc','calcBase.py',101),
-  ('statement -> PRINT LPAREN expression RPAREN','statement',4,'p_print','calcBase.py',109),
-  ('expression -> expression PLUS expression','expression',3,'p_expression_binop_plus','calcBase.py',114),
-  ('expression -> TRUE','expression',1,'p_expressionTrue','calcBase.py',119),
-  ('expression -> FALSE','expression',1,'p_expressionFalse','calcBase.py',124),
-  ('statement -> NAME EQUAL expression','statement',3,'p_name_assign','calcBase.py',129),
-  ('expression -> expression COMPARE expression','expression',3,'p_expression_binop_bool2','calcBase.py',134),
-  ('expression -> expression AND expression','expression',3,'p_expression_binop_bool','calcBase.py',140),
-  ('expression -> expression OR expression','expression',3,'p_expression_binop_bool','calcBase.py',141),
-  ('expression -> expression TIMES expression','expression',3,'p_expression_binop_times','calcBase.py',149),
-  ('expression -> expression MINUS expression','expression',3,'p_expression_binop_divide_and_minus','calcBase.py',154),
-  ('expression -> expression DIVIDE expression','expression',3,'p_expression_binop_divide_and_minus','calcBase.py',155),
-  ('expression -> LPAREN expression RPAREN','expression',3,'p_expression_group','calcBase.py',160),
-  ('expression -> IF expression LACCOL bloc RACCOL','expression',5,'p_condition','calcBase.py',165),
-  ('expression -> IF expression LACCOL bloc RACCOL ELSE LACCOL bloc RACCOL','expression',9,'p_condition','calcBase.py',166),
-  ('expression -> WHILE expression LACCOL bloc RACCOL','expression',5,'p_loop','calcBase.py',174),
-  ('expression -> FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN LACCOL bloc RACCOL','expression',11,'p_for','calcBase.py',179),
-  ('params -> params SEPARATOR expression','params',3,'p_params','calcBase.py',184),
-  ('params -> expression','params',1,'p_params','calcBase.py',185),
-  ('statement -> FUNCTION NAME LPAREN RPAREN LACCOL bloc RACCOL','statement',7,'p_function','calcBase.py',194),
-  ('statement -> FUNCTION NAME LPAREN params RPAREN LACCOL bloc RACCOL','statement',8,'p_function','calcBase.py',195),
-  ('expression -> NUMBER','expression',1,'p_expression_number','calcBase.py',203),
-  ('expression -> NAME','expression',1,'p_name','calcBase.py',208),
-  ('statement -> NAME LPAREN RPAREN','statement',3,'p_function_call','calcBase.py',213),
-  ('statement -> NAME LPAREN params RPAREN','statement',4,'p_function_call','calcBase.py',214),
+  ('start -> bloc','start',1,'p_start','calcBase.py',94),
+  ('bloc -> bloc statement SEMICOLON','bloc',3,'p_bloc','calcBase.py',102),
+  ('bloc -> statement SEMICOLON','bloc',2,'p_bloc','calcBase.py',103),
+  ('statement -> PRINT LPAREN params RPAREN','statement',4,'p_print','calcBase.py',111),
+  ('expression -> expression PLUS expression','expression',3,'p_expression_binop_plus','calcBase.py',116),
+  ('expression -> TRUE','expression',1,'p_expressionTrue','calcBase.py',121),
+  ('expression -> FALSE','expression',1,'p_expressionFalse','calcBase.py',126),
+  ('statement -> NAME EQUAL expression','statement',3,'p_name_assign','calcBase.py',131),
+  ('expression -> expression COMPARE expression','expression',3,'p_expression_binop_bool2','calcBase.py',136),
+  ('expression -> expression AND expression','expression',3,'p_expression_binop_bool','calcBase.py',142),
+  ('expression -> expression OR expression','expression',3,'p_expression_binop_bool','calcBase.py',143),
+  ('expression -> expression TIMES expression','expression',3,'p_expression_binop_times','calcBase.py',151),
+  ('expression -> expression MINUS expression','expression',3,'p_expression_binop_divide_and_minus','calcBase.py',156),
+  ('expression -> expression DIVIDE expression','expression',3,'p_expression_binop_divide_and_minus','calcBase.py',157),
+  ('expression -> LPAREN expression RPAREN','expression',3,'p_expression_group','calcBase.py',162),
+  ('expression -> IF expression LACCOL bloc RACCOL','expression',5,'p_condition','calcBase.py',167),
+  ('expression -> IF expression LACCOL bloc RACCOL ELSE LACCOL bloc RACCOL','expression',9,'p_condition','calcBase.py',168),
+  ('expression -> WHILE expression LACCOL bloc RACCOL','expression',5,'p_loop','calcBase.py',176),
+  ('expression -> FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN LACCOL bloc RACCOL','expression',11,'p_for','calcBase.py',181),
+  ('params -> expression SEPARATOR params','params',3,'p_params','calcBase.py',186),
+  ('params -> expression','params',1,'p_params','calcBase.py',187),
+  ('statement -> FUNCTION NAME LPAREN RPAREN LACCOL bloc RACCOL','statement',7,'p_function','calcBase.py',196),
+  ('statement -> FUNCTION NAME LPAREN params RPAREN LACCOL bloc RACCOL','statement',8,'p_function','calcBase.py',197),
+  ('expression -> NUMBER','expression',1,'p_expression_number','calcBase.py',205),
+  ('expression -> NAME','expression',1,'p_name','calcBase.py',210),
+  ('statement -> NAME LPAREN RPAREN','statement',3,'p_function_call','calcBase.py',215),
+  ('statement -> NAME LPAREN params RPAREN','statement',4,'p_function_call','calcBase.py',216),
 ]
