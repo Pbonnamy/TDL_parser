@@ -5,7 +5,7 @@
 # -----------------------------------------------------------------------------
 from genereTreeGraphviz2 import printTreeGraph
 
-#PREPARER DES INPUTS POUR LA SOUTENANCE
+# PREPARER DES INPUTS POUR LA SOUTENANCE
 
 tokens = [
     'NUMBER', 'MINUS',
@@ -58,6 +58,7 @@ names = {}
 functions = {}
 params = {}
 
+
 def t_NUMBER(t):
     r'\d+'
     t.value = int(t.value)
@@ -73,6 +74,7 @@ def t_NAME(t):
     if t.value in reserved:
         t.type = reserved[t.value]
     return t
+
 
 def t_newline(t):
     r'\n+'
@@ -91,7 +93,7 @@ lex.lex()
 
 
 def p_start(p):
-    'start : bloc'
+    """start : bloc"""
     p[0] = ('START', p[1])
     print('Arbre de dérivation = ', p[0])
     printTreeGraph(p[1])
@@ -99,8 +101,8 @@ def p_start(p):
 
 
 def p_bloc(p):
-    '''bloc : bloc statement SEMICOLON
-                            | statement SEMICOLON'''
+    """bloc : bloc statement SEMICOLON
+                            | statement SEMICOLON"""
     if p[2] == ";":
         p[0] = ('bloc', p[1], 'empty')
     else:
@@ -108,13 +110,13 @@ def p_bloc(p):
 
 
 def p_print(p):
-    'statement : PRINT LPAREN params RPAREN'
+    """statement : PRINT LPAREN params RPAREN"""
     p[0] = ('print', p[3])
 
 
 def p_expression_binop_plus(p):
-    '''expression : expression PLUS expression
-                            | expression PLUS'''
+    """expression : expression PLUS expression
+                            | expression PLUS"""
 
     if len(p) == 4:
         p[0] = ('+', p[1], p[3])
@@ -122,31 +124,30 @@ def p_expression_binop_plus(p):
         p[0] = ('+', p[1], p[2])
 
 
-
 def p_expressionTrue(p):
-    'expression : TRUE'
+    """expression : TRUE"""
     p[0] = ('true')
 
 
 def p_expressionFalse(p):
-    'expression : FALSE'
+    """expression : FALSE"""
     p[0] = ('false')
 
 
 def p_name_assign(p):
-    'statement : NAME EQUAL expression'
+    """statement : NAME EQUAL expression"""
     p[0] = ('assign', p[1], p[3])
 
 
 def p_expression_binop_bool2(p):
-    'expression : expression COMPARE expression'
+    """expression : expression COMPARE expression"""
 
     p[0] = (p[2], p[1], p[3])
 
 
 def p_expression_binop_bool(p):
-    '''expression : expression AND expression
-                                | expression OR expression'''
+    """expression : expression AND expression
+                                | expression OR expression"""
     if p[2] == '&':
         p[0] = ('and', p[1], p[3])
     else:
@@ -154,24 +155,24 @@ def p_expression_binop_bool(p):
 
 
 def p_expression_binop_times(p):
-    'expression : expression TIMES expression'
+    """expression : expression TIMES expression"""
     p[0] = ('*', p[1], p[3])
 
 
 def p_expression_binop_divide_and_minus(p):
-    '''expression : expression MINUS expression
-				| expression DIVIDE expression'''
+    """expression : expression MINUS expression
+				    | expression DIVIDE expression"""
     p[0] = (p[2], p[1], p[3])
 
 
 def p_expression_group(p):
-    'expression : LPAREN expression RPAREN'
+    """expression : LPAREN expression RPAREN"""
     p[0] = p[2]
 
 
 def p_condition(p):
-    '''expression : IF expression LACCOL bloc RACCOL
-                                | IF expression LACCOL bloc RACCOL ELSE LACCOL bloc RACCOL'''
+    """expression : IF expression LACCOL bloc RACCOL
+                                | IF expression LACCOL bloc RACCOL ELSE LACCOL bloc RACCOL"""
     if len(p) > 6:
         p[0] = ('if', p[2], p[4], p[8])
     else:
@@ -179,18 +180,18 @@ def p_condition(p):
 
 
 def p_loop(p):
-    '''statement : WHILE expression LACCOL bloc RACCOL'''
+    """statement : WHILE expression LACCOL bloc RACCOL"""
     p[0] = ('while', p[2], p[4])
 
 
 def p_for(p):
-    '''statement : FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN LACCOL bloc RACCOL'''
+    """statement : FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN LACCOL bloc RACCOL"""
     p[0] = ('for', p[3], p[5], p[7], p[10])
 
 
 def p_params(p):
-    '''params : expression SEPARATOR params
-                        | expression'''
+    """params : expression SEPARATOR params
+                        | expression"""
 
     if len(p) == 2:
         p[0] = ('param', p[1], 'empty')
@@ -199,8 +200,8 @@ def p_params(p):
 
 
 def p_function(p):
-    '''statement : FUNCTION NAME LPAREN RPAREN LACCOL bloc RACCOL
-                                | FUNCTION NAME LPAREN params RPAREN LACCOL bloc RACCOL'''
+    """statement : FUNCTION NAME LPAREN RPAREN LACCOL bloc RACCOL
+                                | FUNCTION NAME LPAREN params RPAREN LACCOL bloc RACCOL"""
     if len(p) == 8:
         p[0] = ('function', p[2], p[6])
     else:
@@ -208,18 +209,19 @@ def p_function(p):
 
 
 def p_expression_number(p):
-    'expression : NUMBER'
+    """expression : NUMBER"""
     p[0] = p[1]
 
 
 def p_name(p):
-    'expression : NAME'
+    """expression : NAME"""
     p[0] = p[1]
 
+
 def p_word(p):
-    '''expression : QUOTE expression
+    """expression : QUOTE expression
                         | NAME QUOTE
-                        | NAME expression'''
+                        | NAME expression"""
 
     if p[1] == '"':
         p[0] = p[2]
@@ -230,8 +232,8 @@ def p_word(p):
 
 
 def p_function_call(p):
-    '''statement : NAME LPAREN RPAREN
-                       | NAME LPAREN params RPAREN'''
+    """statement : NAME LPAREN RPAREN
+                       | NAME LPAREN params RPAREN"""
     if len(p) == 4:
         p[0] = ('call', p[1])
     else:
@@ -337,5 +339,5 @@ import ply.yacc as yacc
 
 yacc.yacc()
 
-s = 'for(i=0;i<10;i=i++){print(i++);};'
+s = 'for(i=0;i<10;i=(i+1)++){print(i++);};'
 yacc.parse(s)
