@@ -113,9 +113,13 @@ def p_print(p):
 
 
 def p_expression_binop_plus(p):
-    '''expression : expression PLUS expression'''
+    '''expression : expression PLUS expression
+                            | expression PLUS'''
 
-    p[0] = ('+', p[1], p[3])
+    if len(p) == 4:
+        p[0] = ('+', p[1], p[3])
+    else:
+        p[0] = ('+', p[1], p[2])
 
 
 
@@ -333,5 +337,5 @@ import ply.yacc as yacc
 
 yacc.yacc()
 
-s = 'for(i=0;i<10;i=i+1){print(i);};'
+s = 'for(i=0;i<10;i=i++){print(i++);};'
 yacc.parse(s)
