@@ -15,7 +15,7 @@ tokens = [
     'NAME', 'EQUAL',
     'COMPARE',
     'LACCOL', 'RACCOL',
-    'SEPARATOR'
+    'SEPARATOR', 'QUOTE'
 ]
 
 # Tokens
@@ -33,6 +33,7 @@ t_SEMICOLON = r';'
 t_EQUAL = r'='
 t_COMPARE = r'[<>]'
 t_SEPARATOR = r','
+t_QUOTE = r'\"'
 
 reserved = {
     'print': 'PRINT',
@@ -73,7 +74,6 @@ def t_NAME(t):
         t.type = reserved[t.value]
     return t
 
-
 def t_newline(t):
     r'\n+'
     t.lexer.lineno += t.value.count("\n")
@@ -113,8 +113,12 @@ def p_print(p):
 
 
 def p_expression_binop_plus(p):
-    'expression : expression PLUS expression'
-    p[0] = ('+', p[1], p[3])
+    '''expression : expression PLUS expression
+                        | PLUS '''
+    if len(p) == 4:
+        p[0] = ('+', p[1], p[3])
+    else:
+        p[0] = p[1]
 
 
 def p_expressionTrue(p):
@@ -210,6 +214,18 @@ def p_name(p):
     'expression : NAME'
     p[0] = p[1]
 
+def p_word(p):
+    '''expression : QUOTE expression
+                        | NAME QUOTE
+                        | NAME expression'''
+
+    if p[1] == '"':
+        p[0] = p[2]
+    elif p[2] == '"':
+        p[0] = ('string', p[1], 'empty')
+    else:
+        p[0] = ('string', p[1], p[2])
+
 
 def p_function_call(p):
     '''statement : NAME LPAREN RPAREN
@@ -236,7 +252,10 @@ def evalExpr(t):
             return names[t]
     else:
         if t[0] == "+":
-            return evalExpr(t[1]) + evalExpr(t[2])
+            if t[2] == "+":
+                return evalExpr(t[1]) + 1
+            else:
+                return evalExpr(t[1]) + evalExpr(t[2])
         elif t[0] == "-":
             return evalExpr(t[1]) - evalExpr(t[2])
         elif t[0] == "*":
@@ -251,11 +270,21 @@ def evalExpr(t):
             return evalExpr(t[1]) > evalExpr(t[2])
         elif t[0] == "<":
             return evalExpr(t[1]) < evalExpr(t[2])
+        elif t[0] == "string":
+            res = ''
+            unstack_val = t
+            while True:
+                res += unstack_val[1]
+                if unstack_val[2] == "empty":
+                    break
+                else:
+                    res += ' '
+                    unstack_val = unstack_val[2]
+            return res
 
 
 def evalInst(t):
     if t[0] == "bloc":
-        # systeme de pile (mettre sur la pile)
         evalInst(t[1])
         evalInst(t[2])
     elif t[0] == "print":
