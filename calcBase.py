@@ -113,12 +113,10 @@ def p_print(p):
 
 
 def p_expression_binop_plus(p):
-    '''expression : expression PLUS expression
-                        | PLUS '''
-    if len(p) == 4:
-        p[0] = ('+', p[1], p[3])
-    else:
-        p[0] = p[1]
+    '''expression : expression PLUS expression'''
+
+    p[0] = ('+', p[1], p[3])
+
 
 
 def p_expressionTrue(p):
@@ -177,12 +175,12 @@ def p_condition(p):
 
 
 def p_loop(p):
-    '''expression : WHILE expression LACCOL bloc RACCOL'''
+    '''statement : WHILE expression LACCOL bloc RACCOL'''
     p[0] = ('while', p[2], p[4])
 
 
 def p_for(p):
-    '''expression : FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN LACCOL bloc RACCOL'''
+    '''statement : FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN LACCOL bloc RACCOL'''
     p[0] = ('for', p[3], p[5], p[7], p[10])
 
 
@@ -335,5 +333,5 @@ import ply.yacc as yacc
 
 yacc.yacc()
 
-s = 'print(1);'
+s = 'for(i=0;i<10;i=i+1){print(i);};'
 yacc.parse(s)
