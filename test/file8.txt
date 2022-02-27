@@ -1,0 +1,3 @@
+y="hello world";
+
+print(y, 5+5, 4, "ok");

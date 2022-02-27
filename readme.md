@@ -25,45 +25,45 @@
 ---
 ## Synthaxe
 
-- opération arithmétiques :
-  - s1='print(((1+4)*4-10)/2);'
+- opération arithmétiques ➔ test/file1.txt  
+s1='print(((1+4)*4-10)/2);'
 
 
-- affectation, print
-  - s2='x=4;x=x+3;print(x);'
+- affectation, print ➔ test/file2.txt  
+s2='x=4;x=x+3;print(x);'
   
 
-- incrémentation
-  - s3='x=9; x++; print(x);'
+- incrémentation ➔ test/file3.txt    
+s3='x=9; x++; print(x);'
   
 
-- if, comparaison
-  - s4='x=5; if x < 6 {print(6);}; if x < 4 {print(4);};'
+- if, comparaison ➔ test/file4.txt   
+s4='x=5; if x < 6 {print(6);}; if x < 4 {print(4);};'
   
 
-- if-else
-  - s5='x=5; if x < 10 {print(0);} else { print(10);};'
+- if-else ➔ test/file5.txt   
+s5='x=5; if x < 10 {print(0);} else { print(10);};'
 
 
-- while
-  - s6=’x=0;while(x<30){x=x+3;print(x);};’
+- while ➔ test/file6.txt   
+s6=’x=0;while(x<30){x=x+3;print(x);};’
 
 
-- for
-  - s7='for(i=0; i<5; i=i+1){print(i*i);};'
+- for ➔ test/file7.txt  
+s7='for(i=0; i<5; i=i+1){print(i*i);};'
 
 
-- chaine de charactere, print multiple
-  - s8='y="hello world"; print(y, 5+5, 4, "ok");'
+- chaine de charactere, print multiple ➔ test/file8.txt   
+s8='y="hello world"; print(y, 5+5, 4, "ok");'
 
 
-- True, False
-  - s9='print(1>2);print(2>1);'
+- True, False ➔ test/file9.txt   
+s9='print(1>2);print(2>1);'
 
 
-- fonction sans paramètres
-  - s10='function test() { ok="test"; print(ok); }; test();'
+- fonction sans paramètres ➔ test/file10.txt   
+s10='function test() { ok="test"; print(ok); }; test();'
 
 
-- fonction avec paramètres
-  - s11='function test(x, y) { print(x); y=y+5; print(y);}; test(5, 5);'
+- fonction avec paramètres ➔ test/file11.txt   
+s11='function test(x, y) { print(x); y=y+5; print(y);}; test(5, 5);'

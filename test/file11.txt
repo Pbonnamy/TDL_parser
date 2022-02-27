@@ -1,0 +1,7 @@
+function test(x, y) {
+    print(x);
+    y=y+5;
+    print(y);
+};
+
+test(5, 5);

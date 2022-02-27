@@ -1,0 +1,6 @@
+function test() {
+    ok="test";
+    print(ok);
+};
+
+test();

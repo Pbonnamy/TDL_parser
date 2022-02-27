@@ -117,7 +117,6 @@ def p_print(p):
 def p_expression_binop_plus(p):
     """expression : expression PLUS expression"""
 
-
     p[0] = ('+', p[1], p[3])
 
 
@@ -340,5 +339,7 @@ import ply.yacc as yacc
 
 yacc.yacc()
 
-s = 'print(((1+4)*4-10)/2);'
+with open("test/file5.txt") as file:
+    s = file.read()
+
 yacc.parse(s)
